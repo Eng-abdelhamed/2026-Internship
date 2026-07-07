@@ -13,7 +13,7 @@ add_executable(MathTests
 
 target_link_libraries(MathTests
     PRIVATE
-        Math
+        math
         GTest::gtest_main
 )
 
