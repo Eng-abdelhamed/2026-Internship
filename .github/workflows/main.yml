@@ -24,7 +24,6 @@ jobs:
         path:
           - Code/lib
           - Code/include
-          - Code/tests
 
     steps:
       - name: Checkout Repositorry
