@@ -51,14 +51,6 @@ jobs:
           cmake: true
           ninja: true
 
-      - name: Cache compilation 
-        uses: actions/cache@v6
-        with:
-          path: ~/.cache/ccache
-          key: ${{ runner.os }}-ccache-v1-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-ccache-v1-
-
       - name: Cache CMake build directory
         uses: actions/cache@v6
         with:
@@ -69,7 +61,7 @@ jobs:
 
       - name: Config CMake files
         run: |
-          cmake -S Code -B Code/build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          cmake -S Code -B Code/build -G "Ninja" -DCMAKE_BUILD_TYPE=Release 
 
       - name: Building
         run: |
