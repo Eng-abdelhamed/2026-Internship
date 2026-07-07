@@ -69,7 +69,7 @@ jobs:
 
       - name: Config CMake files
         run: |
-          cmake -S Code -B Code/build -G "Ninja" -DCMAKE_BUILD_TYPE=Release
+          cmake -S Code -B Code/build -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 
       - name: Building
         run: |
