@@ -37,7 +37,6 @@ jobs:
           fallback-style: "LLVM"
 
   Testing-building:
-    if: ${{ hashFiles('Code/CMakeLists.txt') != '' }}
     runs-on: ubuntu-latest
     needs: Testing-Formatting
 
@@ -60,15 +59,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-v1-
 
+
+      - name: Checking_availablitiy_CMake_files
+        id: CM
+        run : |
+          if [ -f Code/CMakeLists.txt ]; then
+            echo "valid=true" >> "$GITHUB_OUTPUT" 
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+          fi 
+
       - name: Config CMake files
+        if: steps.Checking_availablitiy_CMake_files.outputs.valid == 'true'
         run: |
           cmake -S Code -B Code/build -G "Ninja" -DCMAKE_BUILD_TYPE=Release 
 
       - name: Building
+        if: steps.Checking_availablitiy_CMake_files.outputs.valid == 'true'
         run: |
           cmake --build Code/build --parallel
 
       - name: Run Tests
+        if: steps.Checking_availablitiy_CMake_files.outputs.valid == 'true'
         working-directory: Code/build
         run: |
           ctest --output-on-failure --verbose
