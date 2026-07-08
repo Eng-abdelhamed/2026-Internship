@@ -43,7 +43,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
+        
+      - name: Checking_availablitiy_CMake_files
+        id: CM
+        run : |
+          if [ -f Code/CMakeLists.txt ]; then
+            echo "valid=true" >> "$GITHUB_OUTPUT" 
+          else
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+          fi 
       - name: Setup building tools C++
         uses: aminya/setup-cpp@v1
         with:
@@ -60,14 +68,7 @@ jobs:
             ${{ runner.os }}-build-v1-
 
 
-      - name: Checking_availablitiy_CMake_files
-        id: CM
-        run : |
-          if [ -f Code/CMakeLists.txt ]; then
-            echo "valid=true" >> "$GITHUB_OUTPUT" 
-          else
-            echo "valid=false" >> "$GITHUB_OUTPUT"
-          fi 
+
 
       - name: Config CMake files
         if: steps.Checking_availablitiy_CMake_files.outputs.valid == 'true'
