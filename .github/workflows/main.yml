@@ -37,7 +37,7 @@ jobs:
           step-summary: true         # job summary report: bad line + suggested fix diff
           no-lgtm: false             # set true if you want to suppress the "all good" message
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
-          format-review: ${{ github.event_name == 'pull_request' }
+          format-review: ${{ github.event_name == 'pull_request' }}
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         run: exit 1
