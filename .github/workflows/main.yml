@@ -37,8 +37,8 @@ jobs:
           fallback-style: "LLVM"
 
   Testing-building:
-    runs-on: ubuntu-latest
     if: ${{ hashFiles('Code/CMakeLists.txt') != '' }}
+    runs-on: ubuntu-latest
     needs: Testing-Formatting
 
     steps:
