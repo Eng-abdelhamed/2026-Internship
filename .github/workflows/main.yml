@@ -4,7 +4,7 @@ permissions:
   contents: read
   checks: write
   pull-requests: write
-  
+
 on:
   push:
     branches: ["main", "Tensor/*", "tensor/*"]
@@ -29,8 +29,9 @@ jobs:
         id: linter
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:  
-          thread-comments: ${{ github.event_name == 'push' && 'update' }}
+        with:
+          files: Code/**
+          thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
