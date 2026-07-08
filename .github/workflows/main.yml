@@ -15,7 +15,7 @@ on:
       - "Documentation/**"
 
   pull_request:
-    branches: ["main"]
+    branches: ["main","Tensor/**","Tesnor/**"]
     paths-ignore:
       - "Documentation/**"
 
