@@ -38,7 +38,7 @@ jobs:
 
   Testing-building:
     runs-on: ubuntu-latest
-    if: ${{hashFiles('Code/CMakeLists.txt') != ''}}
+    if: ${{ hashFiles('Code/CMakeLists.txt') != '' }}
     needs: Testing-Formatting
 
     steps:
