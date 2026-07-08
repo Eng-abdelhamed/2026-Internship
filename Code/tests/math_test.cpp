@@ -24,3 +24,7 @@ TEST(MathTest, MultiplyNegativeNumbers) {
   EXPECT_EQ(Multiply(-3, 4), -12);
   EXPECT_EQ(Multiply(-3, -4), 12);
 }
+TEST(MathTest, Addition) {
+    EXPECT_EQ(1 + 1, 2);
+    EXPECT_TRUE(true);
+}
