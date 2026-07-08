@@ -31,12 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           repo-root: Code
-          - uses: cpp-linter/cpp-linter-action@v2
-        id: linter
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          repo-root: Code
           style: file
           tidy-checks: '-*'       
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
