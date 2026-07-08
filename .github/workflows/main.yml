@@ -18,23 +18,18 @@ jobs:
   Testing-Formatting:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        path:
-          - Code/lib
-          - Code/include
-
     steps:
-      - name: Checkout Repositorry
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
+      - uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:  
+          thread-comments: ${{ github.event_name == 'push' && 'update' }}
 
-      - name: Run clang-format style check for C++ programs.
-        uses: jidicula/clang-format-action@v4.18.0
-        with:
-          clang-format-version: "18"
-          check-path: ${{ matrix.path }}
-          fallback-style: "LLVM"
+      - name: Fail fast?!
+        if: steps.linter.outputs.checks-failed > 0
+        run: exit 1
 
   Testing-building:
     runs-on: ubuntu-latest
