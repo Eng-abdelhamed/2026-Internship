@@ -30,13 +30,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          repo-root: Code
-          style: file
-          tidy-checks: '-*'       
+          repo-root: Code            # scan only inside Code/ instead of the broken "files: Code/**" glob
+          style: file                # use the closest .clang-format file
+          tidy-checks: '-*'          # disable clang-tidy entirely, format-only report
+          file-annotations: true     # inline annotations with exact line/column
+          step-summary: true         # job summary report: bad line + suggested fix diff
+          no-lgtm: false             # set true if you want to suppress the "all good" message
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
-          format-review: ${{ github.event_name == 'pull_request' }}
-          step-summary: true
-
+          format-review: ${{ github.event_name == 'pull_request' }
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
         run: exit 1
