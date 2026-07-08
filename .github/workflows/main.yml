@@ -2,8 +2,9 @@ name: Ci For cpp Code
 
 permissions:
   contents: read
-  push: write 
-
+  checks: write
+  pull-requests: write
+  
 on:
   push:
     branches: ["main", "Tensor/*", "tensor/*"]
