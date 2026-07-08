@@ -30,8 +30,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          files: Code/**
+          repo-root: Code
           thread-comments: ${{ github.event_name == 'pull_request' && 'update' }}
+          format-review: ${{ github.event_name == 'pull_request' }}
+          step-summary: true
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed > 0
