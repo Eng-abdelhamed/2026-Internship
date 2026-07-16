@@ -6,6 +6,7 @@ add_library(Tensor
     tensor_properties.cpp
     tensor_reduction.cpp
     tensor_shapeOps.cpp
+    Tensor_ActivationOps.cpp
 )
 set_target_properties(Tensor PROPERTIES
     POSITION_INDEPENDENT_CODE ON
