@@ -129,7 +129,28 @@ std::cout << tensor << std::endl;
   - 3D transpose with explicit axis permutation
 - Kept `reShape` behavior unchanged and verified it still preserves element order.
 
+### Activation Functions
+
+Added activation-layer style tensor methods to the public API:
+
+- `relu()` for element-wise ReLU
+- `sigmoid()` using a numerically stable implementation
+- `tanh()` for hyperbolic tangent
+- `gelu()` using the fast sigmoid-based approximation: $GELU(x) = x \cdot \sigma(1.702x)$
+- `softmax(int dim = -1)` for stable softmax over either the whole tensor or a specified dimension
+
+The softmax implementation now supports multidimensional tensors, handles negative dimension indices, and uses max-subtraction before exponentiation for numerical stability.
+
 ### New Files Added and Changed
+
+- `Code/include/tensor.h`
+  - Added declarations for the activation methods and the dimension-aware softmax signature.
+
+- `Code/lib/Tensor_ActivationOps.cpp`
+  - Implemented the activation functions and the stable multidimensional softmax logic.
+
+- `Code/tests/test_tensor_activations.cpp`
+  - Added regression tests for ReLU, sigmoid, tanh, GELU, and softmax (including softmax over a specific dimension).
 
 - `Code/lib/tensor_shapeOps.cpp`
   - Rewrote `Transpose` to support arbitrary permutations for tensors of any rank.
@@ -140,13 +161,14 @@ std::cout << tensor << std::endl;
   - Added 3D transpose tests and corrected expected output for explicit axis permutations.
 
 - `Code/tests/test_tensor_reduction.cpp`
-  - Added tests for the following Reductions [sum  - mean - max -min]
+  - Added tests for the following reductions: sum, mean, max, min.
 
-- `Code/tests/tensor_reduction.cpp`
-  - Added implemetation  for the following Reductions [sum  - mean - max -min]
+- `Code/lib/tensor_reduction.cpp`
+  - Added implementations for the following reductions: sum, mean, max, min.
 
-- `python/demo.py` 
-  - We Implemented a test scenarios to encounter what we have done till  know
+- `python/demo.py`
+  - Added example scenarios demonstrating the implemented tensor features.
+
 ### Problems encountered and fixed
 
 - The original transpose implementation only handled 2D tensors and rejected higher-rank tensors.
@@ -170,6 +192,16 @@ Coverage includes:
 - Exception handling
 - Batch matrix multiplication
 - N-dimensional matrix multiplication
+- Activation functions
+- Stable softmax along a specified dimension
+
+Verified with:
+
+```bash
+./build/bin/test_tensor_activations
+```
+
+The activation test suite currently reports 6 passing tests.
 
 ---
 
@@ -199,22 +231,24 @@ Code/
 │   └── tensor.h
 │
 ├── lib/
-│   ├── tensor.cpp
 │   ├── tensor_access.cpp
 │   ├── tensor_arithmetic.cpp
 │   ├── tensor_broadcast.cpp
 │   ├── tensor_matrix.cpp
-│   └── tensor_print.cpp
-│   └── tensor_shapeOps.cpp
+│   ├── tensor_properties.cpp
+│   ├── tensor_reduction.cpp
+│   ├── tensor_shapeOps.cpp
+│   └── Tensor_ActivationOps.cpp
 ├── tests/
 │   ├── test_tensor_properties.cpp
 │   ├── test_tensor_arithmetic.cpp
 │   ├── test_tensor_broadcast.cpp
-│   └── test_tensor_matmul.cpp
-│   └── test_tensor_shapeOps.cpp
-├──python/
-|   ├── demo.py 
-|
+│   ├── test_tensor_matmul.cpp
+│   ├── test_tensor_reduction.cpp
+│   ├── test_tensor_shapeOps.cpp
+│   └── test_tensor_activations.cpp
+├── python/
+│   └── demo.py
 └── CMakeLists.txt
 ```
 
